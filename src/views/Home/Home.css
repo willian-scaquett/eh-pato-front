@@ -1,0 +1,67 @@
+.polaroid {
+  width: 400px;
+  padding: 10px 10px 80px 10px;
+  background-color: white;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  margin: 50px 20px 50px 20px;
+  transform: rotate(-2deg);
+  transition: transform 0.2s;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg);
+}
+
+.polaroid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.caption {
+  padding: 10px 0 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.bem-vindo {
+  font-size: 24px;
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+.pergunta {
+  font-size: 24px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+.opcoes {
+  margin: 3px 0;
+}
+
+.opcoes {
+  font-size: 24px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.opcoes:hover::before {
+  content: '>';
+  color: #ff66ff;
+  position: absolute;
+  left: -25px;
+}
+
+.opcoes:hover {
+  color: #00ff99;
+  cursor: pointer;
+}
