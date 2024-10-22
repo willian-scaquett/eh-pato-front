@@ -4,7 +4,7 @@ Interface criada para o gerenciamento do cadastro de naves e comunicação com a
 
 ## Como rodar
 
-Na pasta do projeto rode:
+Tendo o yarn instalado (https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable), na pasta do projeto rode:
 
 ### `yarn install`
 
