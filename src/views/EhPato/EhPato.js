@@ -61,7 +61,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
       setEhPato(response.ehPato);
       setArmaRecomendada(response.armaRecomendada);
       setAbordagemRecomendada(response.abordagemRecomendada);
-    }).catch((erro) => setErro(erro.message)
+    }).catch((erro) => setErro(erro)
     ).finally(() => abrirResposta());
   }
 
@@ -82,7 +82,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
       <Dialog open={respostaAberta} onClose={fecharResposta} PaperProps={{ style: { width: '500px'} }}>
         {!erro && ehPato && 
           <p>
-            <b>EH PATO!</b><br/> Não machuca ele não =(
+            <b>Sim, EH PATO!</b><br/> Não machuca ele não =(
           </p>
         }
         {!erro && !ehPato && armaRecomendada != null && abordagemRecomendada != null &&
@@ -102,7 +102,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
         {erro && 
           <>
             <p><b>Ocorreu um problema =(</b></p>
-            <p>{ erro }</p>
+            <p>{ erro.message }</p>
             <p>Nunca é fácil salvar o mundo...</p>
           </>
         }
