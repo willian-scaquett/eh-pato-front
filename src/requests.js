@@ -30,8 +30,8 @@ const request = (options) => {
 
 export function verificarEhPato(data) {
   return request({
-    url: API_BASE_URL + '/ehPato',
-    method: 'PUT',
+    url: API_BASE_URL + '/ehPato/identificarECriarEstrategia',
+    method: 'POST',
     body: JSON.stringify(data),
   })
 }

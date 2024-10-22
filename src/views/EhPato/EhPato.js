@@ -3,6 +3,7 @@ import './EhPato.css';
 import { useState } from 'react';
 import { GridCloseIcon } from '@mui/x-data-grid';
 import { verificarEhPato } from '../../requests';
+import { respostas, times, localizacoes, quantidades } from './listasSelects'
 import { ThumbUp } from '@mui/icons-material';
 
 export default function EhPato({ fecharEhPato, ehPatoAberto }) {
@@ -18,8 +19,10 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
   const [localizacao, setLocalizacao] = useState("AGUA")
   const [emBando, setEmBando] = useState(false)
   const [ehPato, setEhPato] = useState(false);
-  const [armaRecomendada, setArmaRecomendada] = useState("");
+  const [armaRecomendada, setArmaRecomendada] = useState(null);
+  const [abordagemRecomendada, setAbordagemRecomendada] = useState(null);
   const [respostaAberta, setRespostaAberta] = useState(false);
+  const [erro, setErro] = useState("")
 
   const limpar = () => {
     setEsverdeamento(0);
@@ -34,11 +37,14 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
     setLocalizacao("AGUA")
     setEmBando(false)
     setEhPato(false);
-    setArmaRecomendada("");
+    setArmaRecomendada(null);
+    setAbordagemRecomendada(null);
     setRespostaAberta(false);
+    setErro("")
   }
 
   const verificar = () => {
+    //Consulta a API para verificar se é pato e, quando não for, receber a estratégia e a abordagem recomendada
     verificarEhPato({
       esverdeamento: enverdeamento,
       tamanhoBico: tamanhoBico,
@@ -52,10 +58,11 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
       localizacaoSuspeito: localizacao,
       emBando: emBando,
     }).then((response) => {
-      console.log(response  );
       setEhPato(response.ehPato);
       setArmaRecomendada(response.armaRecomendada);
-    }).finally(() => abrirResposta());
+      setAbordagemRecomendada(response.abordagemRecomendada);
+    }).catch((erro) => setErro(erro.message)
+    ).finally(() => abrirResposta());
   }
 
   const abrirResposta = () => {
@@ -66,45 +73,6 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
     setRespostaAberta(false);
   };
 
-  const respostas = [
-    {value: true, nome: "Sim"},
-    {value: false, nome: "Não"}
-  ]
-
-  const times = [
-    {value: "Atlético Pateiro", nome: "Atlético Pateiro"},
-    {value: "Atlético Patoniense", nome: "Atlético Patoniense"},
-    {value: "Athletico Patonaense", nome: "Athletico Patonaense"},
-    {value: "Cruzeiduck", nome: "Cruzeiduck"},
-    {value: "Flumipato", nome: "Flumipato"},
-    {value: "Interpatonal", nome: "Interpatonal"},
-    {value: "Pato da Gama", nome: "Pato da Gama"},
-    {value: "Patoiabá", nome: "Patoiabá"},
-    {value: "Patofogo", nome: "Patofogo"},
-    {value: "Patoleza", nome: "Patoleza"},
-    {value: "Patomengo", nome: "Patomengo"},
-    {value: "Patoninthians", nome: "Patoninthians"},
-    {value: "Patohia", nome: "Patohia"},
-    {value: "Patória", nome: "Patória"},
-    {value: "Patomeiras", nome: "Patomeiras"},
-    {value: "Patotino", nome: "Patotino"},
-    {value: "Patotude", nome: "Patotude"},
-    {value: "Quackriciúma", nome: "Quackriciúma"},
-    {value: "Quackrêmio", nome: "Quackrêmio"},
-    {value: "São Pato", nome: "São Pato"},
-  ]
-
-  const localizacoes = [
-    {value: "AGUA", nome: "Água"},
-    {value: "TERRA", nome: "Terra"},
-    {value: "AR", nome: "Ar"}
-  ]
-
-  const quantidades = [
-    {value: false, nome: "Sozinho"},
-    {value: true, nome: "Bando"}
-  ]
-
   return (
     <Dialog
       open={ehPatoAberto}
@@ -112,9 +80,32 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
       PaperProps={{ style: { width: '600px'} }}
     >
       <Dialog open={respostaAberta} onClose={fecharResposta} PaperProps={{ style: { width: '500px'} }}>
-        {ehPato && <p><b>EH PATO!</b><br/> Não machuca ele não =(</p> }
-        {!ehPato && <p><b>CUIDADO!</b><br/> Você está na presença de xenófago(s). <br/><br/> <b>Arma recomendada:</b> {armaRecomendada}</p> }
-        <p><b>Lembre-se:</b> Nossa IA ainda está aprendendo sobre esses invasores, então tenha cautela para não se machucar ou machucar possíveis patos</p>
+        {!erro && ehPato && 
+          <p>
+            <b>EH PATO!</b><br/> Não machuca ele não =(
+          </p>
+        }
+        {!erro && !ehPato && armaRecomendada != null && abordagemRecomendada != null &&
+          <p>
+            <b>CUIDADO!</b><br/>
+            Você está na presença de xenófago(s).
+            <br/><br/>
+            <b>Arma recomendada:</b> {armaRecomendada} <br/>
+            <b>Abordagem recomendada:</b> {abordagemRecomendada}
+          </p> 
+        }
+        {!erro &&
+          <p>
+            <b>Lembre-se:</b> Nossa IA ainda está aprendendo sobre esses invasores, então tenha cautela para não se machucar ou machucar possíveis patos
+          </p>
+        }
+        {erro && 
+          <>
+            <p><b>Ocorreu um problema =(</b></p>
+            <p>{ erro }</p>
+            <p>Nunca é fácil salvar o mundo...</p>
+          </>
+        }
         <Button
           variant="outlined"
           endIcon={ <ThumbUp/> }
