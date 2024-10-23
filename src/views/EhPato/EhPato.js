@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { verificarEhPato } from '../../requests';
 import { respostas, times, localizacoes, quantidades } from './listasSelects'
-import { ThumbUp } from '@mui/icons-material';
+import Resposta from '../Resposta/Resposta';
 
 export default function EhPato({ fecharEhPato, ehPatoAberto }) {
   const [enverdeamento, setEsverdeamento] = useState(0);
@@ -71,6 +71,8 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
 
   const fecharResposta = () => {
     setRespostaAberta(false);
+    fecharEhPato();
+    limpar();
   };
 
   return (
@@ -79,45 +81,40 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
       onClose={fecharEhPato}
       PaperProps={{ style: { width: '600px'} }}
     >
-      <Dialog open={respostaAberta} onClose={fecharResposta} PaperProps={{ style: { width: '500px'} }}>
-        {!erro && ehPato && 
-          <p>
-            <b>Sim, EH PATO!</b><br/> Não machuca ele não =(
-          </p>
-        }
-        {!erro && !ehPato && armaRecomendada != null && abordagemRecomendada != null &&
-          <p>
-            <b>CUIDADO!</b><br/>
-            Você está na presença de xenófago(s).
-            <br/><br/>
-            <b>Arma recomendada:</b> {armaRecomendada} <br/>
-            <b>Abordagem recomendada:</b> {abordagemRecomendada}
-          </p> 
-        }
-        {!erro &&
-          <p>
-            <b>Lembre-se:</b> Nossa IA ainda está aprendendo sobre esses invasores, então tenha cautela para não se machucar ou machucar possíveis patos
-          </p>
-        }
-        {erro && 
+      <Resposta
+        respostaAberta={respostaAberta}
+        fecharResposta={fecharResposta}
+        conteudo={
           <>
-            <p><b>Ocorreu um problema =(</b></p>
-            <p>{ erro.message }</p>
-            <p>Nunca é fácil salvar o mundo...</p>
+            {!erro && ehPato && 
+              <p>
+                <b>Sim, EH PATO!</b><br/> Não machuca ele não =(
+              </p>
+            }
+            {!erro && !ehPato && armaRecomendada != null && abordagemRecomendada != null &&
+              <p>
+                <b>CUIDADO!</b><br/>
+                Você está na presença de xenófago(s).
+                <br/><br/>
+                <b>Arma recomendada:</b> {armaRecomendada} <br/>
+                <b>Abordagem recomendada:</b> {abordagemRecomendada}
+              </p> 
+            }
+            {!erro &&
+              <p>
+                <b>Lembre-se:</b> Nossa IA ainda está aprendendo sobre esses invasores, então tenha cautela para não se machucar ou machucar possíveis patos
+              </p>
+            }
+            {erro && 
+              <>
+                <p><b>Ocorreu um problema =(</b></p>
+                <p>{ erro.message }</p>
+                <p>Nunca é fácil salvar o mundo...</p>
+              </>
+            }
           </>
         }
-        <Button
-          variant="outlined"
-          endIcon={ <ThumbUp/> }
-          onClick={() => {
-            fecharEhPato();
-            fecharResposta();
-            limpar();
-          }}
-        >
-          BELEZA
-        </Button>
-      </Dialog>
+      />
 
       <div className="formulario">
         <h2>EH PATO?!?!</h2>
@@ -295,7 +292,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
         </div>
       </div>
       <DialogActions>
-        <Button variant="outlined" startIcon={ <CloseIcon/> } onClick={fecharEhPato}>Fechar</Button>
+        <Button variant="outlined" startIcon={ <CloseIcon/> } onClick={() => { fecharEhPato(); limpar(); }}>Fechar</Button>
         <Button
           variant="outlined"
           onClick={() => verificar()}

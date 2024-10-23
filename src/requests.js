@@ -1,4 +1,5 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL
+const API_NAVE = API_BASE_URL + "/nave"
 
 const request = (options) => {
   const headers = new Headers({
@@ -38,14 +39,22 @@ export function verificarEhPato(data) {
 
 export function listarTodasNaves() {
   return request({
-    url: API_BASE_URL + '/nave/listarTodas',
+    url: API_NAVE + '/listarTodas',
     method: 'GET',
   })
 }
 
 export function buscarValoresSelectsCadastro() {
   return request({
-    url: API_BASE_URL + '/nave/valoresSelectsCadastro',
+    url: API_NAVE + '/valoresSelectsCadastro',
     method: 'GET',
+  })
+}
+
+export function cadastrarNave(data) {
+  return request({
+    url: API_NAVE + '/criar',
+    method: 'POST',
+    body: JSON.stringify(data),
   })
 }

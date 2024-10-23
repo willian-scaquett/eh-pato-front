@@ -59,10 +59,14 @@ export default function ListagemNaves() {
         </AppBar>
       </Box>
 
-      <CadastroNave cadastroAberto={cadastroAberto} fecharCadastro={fecharCadastro} />
+      <CadastroNave
+        carregarNaves={carregarNaves}
+        cadastroAberto={cadastroAberto}
+        fecharCadastro={fecharCadastro}
+      />
 
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Paper sx={{ minHeight: '670px', height: '100%', width: '98%', marginTop: '-3px' }}>
+        <Paper sx={{ minHeight: '690px', height: '100%', width: '98%', marginTop: '-3px' }}>
           <DataGrid
             rows={naves}
             columns={columns}
@@ -72,6 +76,7 @@ export default function ListagemNaves() {
             disableColumnMenu
             localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
             slots={{ toolbar: CustomToolbar }}
+            hideFooterSelectedRowCount
           />
         </Paper>
       </Box>
