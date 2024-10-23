@@ -58,3 +58,10 @@ export function cadastrarNave(data) {
     body: JSON.stringify(data),
   })
 }
+
+export function apagarNave(id) {
+  return request({
+    url: API_NAVE + '/apagar/' + id,
+    method: 'DELETE',
+  })
+}

@@ -1,20 +1,24 @@
 import './ListagemNaves.css';
-import { AppBar, Box, Button, IconButton, Paper, Toolbar, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { AppBar, Box, Button, Dialog, DialogActions, IconButton, Paper, Toolbar, Typography } from '@mui/material';
+import { DataGrid, GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import CadastroNave from '../CadastroNave/CadastroNave';
-import { listarTodasNaves } from '../../requests'
+import { apagarNave, listarTodasNaves } from '../../requests'
 import { ptBR } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
-import { columns, CustomToolbar, paginationModel } from './variaveis'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { ThumbDownOutlined, ThumbUpOutlined } from '@mui/icons-material';
 
 export default function ListagemNaves() {
   const navigate = useNavigate();
 
   const [naves, setNaves] = useState([]);
   const [cadastroAberto, setCadastroAberto] = useState(false);
+  const [verificacaoApagarAberto, setVerificacaoApagarAberto] = useState(false);
+  const [naveApagar, setNaveApagar] = useState({});
 
   useEffect(() => carregarNaves(), []);
 
@@ -30,8 +34,85 @@ export default function ListagemNaves() {
     setCadastroAberto(false);
   };
 
+  const abrirVerificacaoApagar = (nave) => {
+    setNaveApagar(nave);
+    setVerificacaoApagarAberto(true);
+  };
+
+  const fecharVerificacaoApagar = () => {
+    setVerificacaoApagarAberto(false);
+  };
+
+  const confirmarApagarNave = () => {
+    apagarNave(naveApagar.id).then(() => {
+      carregarNaves();
+      fecharVerificacaoApagar();
+    });
+  }
+
+  const columns = [
+    { field: 'nome', headerName: 'Nome', width: 180, align: 'center ', headerAlign: 'center' },
+    { field: 'cor', headerName: 'Cor', width: 90, align: 'center ', headerAlign: 'center' },
+    { field: 'tamanho', headerName: 'Tamanho', width: 90, align: 'center ', headerAlign: 'center' },
+    { field: 'localQueda', headerName: 'Local da Queda', width: 170, align: 'center ', headerAlign: 'center' },
+    { field: 'armamento', headerName: 'Armamento', width: 140, align: 'center ', headerAlign: 'center' },
+    { field: 'tipoCombustivel', headerName: 'Tipo de Combustível', width: 190, align: 'center ', headerAlign: 'center' },
+    { field: 'tripulantes', headerName: 'Tripulantes(B/F/FCD)', width: 200, align: 'center ', headerAlign: 'center' },
+    { field: 'grauAvaria', headerName: 'Grau de Avaria', width: 180, align: 'center ', headerAlign: 'center' },
+    { field: 'potencialTecnologico', headerName: 'Potencial Tecnológico', width: 200, align: 'center ', headerAlign: 'center' },
+    { field: 'periculosidade', headerName: 'Periculosidade', width: 140, align: 'center ', headerAlign: 'center' },
+    { field: 'classificacao', headerName: 'Classificação', width: 200, align: 'center ', headerAlign: 'center' },
+    { 
+        field: 'acoes',
+        headerName: 'Ações',
+        width: 100,
+        align: 'center ',
+        headerAlign: 'center',
+        sortable: false,
+        renderCell: (params) => (
+            <>
+                <IconButton>
+                  <EditOutlinedIcon fontSize="small" />
+                </IconButton>
+                <IconButton onClick={() => abrirVerificacaoApagar(params.row)}>
+                  <DeleteOutlinedIcon fontSize="small" />
+                </IconButton>
+            </>
+        )
+    },
+  ]
+
+  const paginationModel = { page: 0, pageSize: 10 }
+
+  const CustomToolbar = () => {
+    return (
+        <GridToolbarContainer>
+            <GridToolbarQuickFilter sx={{ margin: "10px", width: "100%" }} />
+        </GridToolbarContainer>
+    );
+  }
+
   return (
     <div className="body-tabela">
+      <Dialog open={verificacaoApagarAberto} onClose={fecharVerificacaoApagar} PaperProps={{ style: { width: '400px'} }}>
+        <p>Realmente deseja apagar a nave <b>{naveApagar.nome}</b>?</p>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            startIcon={ <ThumbDownOutlined  /> }
+            onClick={() => {fecharVerificacaoApagar()}}
+          >
+            Não
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={ <ThumbUpOutlined/> }
+            onClick={() => {confirmarApagarNave()}}
+          >
+            Sim
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar className="toolbar">
