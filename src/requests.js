@@ -65,3 +65,18 @@ export function apagarNave(id) {
     method: 'DELETE',
   })
 }
+
+export function buscarNavePorId(id) {
+  return request({
+    url: API_NAVE + '/' + id,
+    method: 'GET',
+  })
+}
+
+export function editarNave(data) {
+  return request({
+    url: API_NAVE + '/editar/' + data.id,
+    method: 'PUT',
+    body: JSON.stringify(data),
+  })
+}

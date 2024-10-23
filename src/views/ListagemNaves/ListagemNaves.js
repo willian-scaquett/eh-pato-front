@@ -3,7 +3,7 @@ import { AppBar, Box, Button, Dialog, DialogActions, IconButton, Paper, Toolbar,
 import { DataGrid, GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import CadastroNave from '../CadastroNave/CadastroNave';
-import { apagarNave, listarTodasNaves } from '../../requests'
+import { apagarNave, buscarNavePorId, listarTodasNaves } from '../../requests'
 import { ptBR } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -19,6 +19,7 @@ export default function ListagemNaves() {
   const [cadastroAberto, setCadastroAberto] = useState(false);
   const [verificacaoApagarAberto, setVerificacaoApagarAberto] = useState(false);
   const [naveApagar, setNaveApagar] = useState({});
+  const [naveEditar, setNaveEditar] = useState({});
 
   useEffect(() => carregarNaves(), []);
 
@@ -50,6 +51,11 @@ export default function ListagemNaves() {
     });
   }
 
+  const abrirEdicaoNave = (id) => {
+    buscarNavePorId(id).then((response) => setNaveEditar(response));
+    abrirCadastro();
+  }
+
   const columns = [
     { field: 'nome', headerName: 'Nome', width: 180, align: 'center ', headerAlign: 'center' },
     { field: 'cor', headerName: 'Cor', width: 90, align: 'center ', headerAlign: 'center' },
@@ -71,7 +77,7 @@ export default function ListagemNaves() {
         sortable: false,
         renderCell: (params) => (
             <>
-                <IconButton>
+                <IconButton onClick={(() => abrirEdicaoNave(params.row.id))}>
                   <EditOutlinedIcon fontSize="small" />
                 </IconButton>
                 <IconButton onClick={() => abrirVerificacaoApagar(params.row)}>
@@ -144,6 +150,7 @@ export default function ListagemNaves() {
         carregarNaves={carregarNaves}
         cadastroAberto={cadastroAberto}
         fecharCadastro={fecharCadastro}
+        naveEditar={naveEditar}
       />
 
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

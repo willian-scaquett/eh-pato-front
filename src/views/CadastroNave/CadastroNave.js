@@ -3,10 +3,10 @@ import './CadastroNave.css';
 import { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
-import { buscarValoresSelectsCadastro, cadastrarNave } from '../../requests';
+import { buscarValoresSelectsCadastro, cadastrarNave, editarNave } from '../../requests';
 import Resposta from '../Resposta/Resposta';
 
-export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNaves}) {
+export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNaves, naveEditar}) {
   const [nome, setNome] = useState("")
   const [cor, setCor] = useState("AMARELA");
   const [tamanho, setTamanho] = useState("PEQUENA");
@@ -25,7 +25,22 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
   
   const [listas, setListas] = useState([]);
 
-  useEffect(() => buscarValoresListas(), []);
+  useEffect(() => {
+    buscarValoresListas()
+    if (naveEditar) {
+      setNome(naveEditar.nome);
+      setCor(naveEditar.cor);
+      setTamanho(naveEditar.tamanho);
+      setLocalQueda(naveEditar.localQueda);
+      setArmamento(naveEditar.armamento);
+      setTipoCombustivel(naveEditar.tipoCombustivel);
+      setGrauAvaria(naveEditar.grauAvaria);
+      setPotencialTecnologico(naveEditar.potencialTecnologico);
+      setTotalTripulanteBem(naveEditar.totalTripulanteBem);
+      setTotalTripulanteFerido(naveEditar.totalTripulanteFerido);
+      setTotalTripulanteFoiComDeus(naveEditar.totalTripulanteFoiComDeus);
+    }
+  }, [naveEditar]);
   
   const buscarValoresListas = () => {
     buscarValoresSelectsCadastro().then((response) => setListas(response));
@@ -33,27 +48,47 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
 
   const salvarCadastro = () => {
     setErro(null);
-    cadastrarNave({
-      nome,
-      cor,
-      tamanho,
-      localQueda,
-      armamento,
-      tipoCombustivel,
-      grauAvaria,
-      potencialTecnologico,
-      totalTripulanteBem,
-      totalTripulanteFerido,
-      totalTripulanteFoiComDeus
-    }).then((response) => {
-      carregarNaves();
-      setPericulosidade(response.periculosidade);
-      setClassificao(response.classificacao);
-      abrirResposta();
-    }).catch((erro) => {
-      setErro(erro);
-      abrirResposta();  
-    });
+    if (naveEditar) {
+      console.log(naveEditar)
+      editarNave(
+        {
+          id: naveEditar.id,
+          nome,
+          cor,
+          tamanho,
+          localQueda,
+          armamento,
+          tipoCombustivel,
+          grauAvaria,
+          potencialTecnologico,
+          totalTripulanteBem,
+          totalTripulanteFerido,
+          totalTripulanteFoiComDeus
+        }
+      );
+    } else {
+      cadastrarNave({
+        nome,
+        cor,
+        tamanho,
+        localQueda,
+        armamento,
+        tipoCombustivel,
+        grauAvaria,
+        potencialTecnologico,
+        totalTripulanteBem,
+        totalTripulanteFerido,
+        totalTripulanteFoiComDeus
+      }).then((response) => {
+        carregarNaves();
+        setPericulosidade(response.periculosidade);
+        setClassificao(response.classificacao);
+        abrirResposta();
+      }).catch((erro) => {
+        setErro(erro);
+        abrirResposta();  
+      });
+    }
   }
 
   const limpar = () => {
@@ -126,7 +161,8 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
           }
         />
         <div className="formulario">
-          <h2>Formulário de cadastro</h2>
+          {!naveEditar && <h2>Formulário de cadastro</h2>}
+          {naveEditar && <h2>Formulário de edição #{naveEditar.id}</h2>}
           <div className="linha">
             <div className="campo">
               <TextField
