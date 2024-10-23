@@ -35,3 +35,10 @@ export function verificarEhPato(data) {
     body: JSON.stringify(data),
   })
 }
+
+export function listarTodasNaves() {
+  return request({
+    url: API_BASE_URL + '/nave/listarTodas',
+    method: 'GET',
+  })
+}

@@ -6,6 +6,9 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 function App() {
   const customTheme = createTheme({
+    typography: {
+      fontFamily: 'Courier, monospace',
+    },
     palette: {
       primary: {
         main: '#282c34',
@@ -17,7 +20,6 @@ function App() {
           root: {
             '& label': {
               color: '#282c34',
-              fontFamily: 'Courier, monospace',
             },
             '& label.Mui-focused': {
               color: '#282c34',
@@ -33,7 +35,6 @@ function App() {
             },
             '& .MuiInputBase-input': {
               color: '#282c34',
-              fontFamily: 'Courier, monospace',
             },
           },
         },
@@ -42,11 +43,9 @@ function App() {
         styleOverrides: {
           root: {
             color: '#282c34',
-            fontFamily: 'Courier, monospace',
           },
           focused: {
             color: '#282c34',
-            fontFamily: 'Courier, monospace',
           },
         },
       },
@@ -54,7 +53,6 @@ function App() {
         styleOverrides: {
           select: {
             color: '#282c34',
-            fontFamily: 'Courier, monospace',
             '&:focus': {
               backgroundColor: 'transparent', 
             },
@@ -67,7 +65,6 @@ function App() {
       MuiMenuItem: {
         styleOverrides: {
           root: {
-            fontFamily: 'Courier, monospace',
             color: '#282c34',
           },
         },
@@ -87,7 +84,6 @@ function App() {
           },
           input: {
             color: '#282c34',
-            fontFamily: 'Courier, monospace',
           },
         },
       },

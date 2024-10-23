@@ -56,12 +56,14 @@
 
 .opcoes:hover::before {
   content: '>';
-  color: #ff66ff;
+  color: #FFFFFF;
+  border: 1;
+  border-color: #FFFFFF;
   position: absolute;
   left: -25px;
 }
 
 .opcoes:hover {
-  color: #00ff99;
+  color: #298e2c;
   cursor: pointer;
 }

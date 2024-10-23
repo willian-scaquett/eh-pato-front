@@ -1,4 +1,9 @@
 body {
-    background-color: #282c34;
-    font-family: 'Courier', monospace;
+    background-image: url("images/background.jpg");
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    font-family: "Courier", monospace;
 }

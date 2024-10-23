@@ -1,24 +1,7 @@
-.body-tabela {
+.body {
   display: flex;
   flex-direction: column;
-}
-
-table {
-  font-size: 17px;
-  color: #FFFFFF;
-}
-
-th {
-  border-bottom: 1px solid #00ff99;
-  padding: 10px 0 15px 0;
-  text-align: center;
-  font-weight: bold;
-}
-
-td {
-  border-bottom: 1px solid #00ff99;
-  padding: 15px 0;
-  text-align: center;
+  align-items: center;
 }
 
 .botaoAdicionar {
@@ -28,4 +11,15 @@ td {
   background: #FFFFFF;
   z-index: 999;
   border-radius: 50px;
+}
+
+.toolbar {
+  background-image: linear-gradient(to bottom, #081c08, #298e2c);
+  color: "#FFFFFF";
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.typography {
+  flex-grow: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
