@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import './EhPato.css';
 import { useState } from 'react';
-import { GridCloseIcon } from '@mui/x-data-grid';
+import CloseIcon from '@mui/icons-material/Close';
 import { verificarEhPato } from '../../requests';
 import { respostas, times, localizacoes, quantidades } from './listasSelects'
 import { ThumbUp } from '@mui/icons-material';
@@ -295,7 +295,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
         </div>
       </div>
       <DialogActions>
-        <Button variant="outlined" startIcon={ <GridCloseIcon/> } onClick={fecharEhPato}>Fechar</Button>
+        <Button variant="outlined" startIcon={ <CloseIcon/> } onClick={fecharEhPato}>Fechar</Button>
         <Button
           variant="outlined"
           onClick={() => verificar()}

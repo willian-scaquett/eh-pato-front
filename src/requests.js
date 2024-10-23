@@ -42,3 +42,10 @@ export function listarTodasNaves() {
     method: 'GET',
   })
 }
+
+export function buscarValoresSelectsCadastro() {
+  return request({
+    url: API_BASE_URL + '/nave/valoresSelectsCadastro',
+    method: 'GET',
+  })
+}

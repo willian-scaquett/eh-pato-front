@@ -23,3 +23,10 @@
   flex-grow: 1;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+.legenda {
+  color: #FFFFFF;
+  text-align: right;
+  margin-right: 20px;
+  font-weight: bold;
+}
