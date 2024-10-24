@@ -5,6 +5,7 @@ import ListagemNaves from './views/ListagemNaves/ListagemNaves';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 function App() {
+  //tema criado para mudar a fonte e as cores dos componentes
   const customTheme = createTheme({
     typography: {
       fontFamily: 'Courier, monospace',

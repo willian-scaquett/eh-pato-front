@@ -1,3 +1,5 @@
+//Valores usados nos selects do formulário do EhPato
+
 export const times = [
     {value: "Atlético Pateiro", nome: "Atlético Pateiro"},
     {value: "Atlético Patoniense", nome: "Atlético Patoniense"},

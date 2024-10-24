@@ -21,30 +21,37 @@ export default function ListagemNaves() {
   const [naveApagar, setNaveApagar] = useState({});
   const [naveEditar, setNaveEditar] = useState(null);
 
+  //Ao montar o componente, busca as naves da API
   useEffect(() => carregarNaves(), []);
 
+  //Busca as naves da API
   const carregarNaves = () => {
     listarTodasNaves().then((response) => {setNaves(response)});
   }
 
+  //Abre o dialog de cadastro
   const abrirCadastro = () => {
     setCadastroAberto(true);
   };
 
+  //Fecha o dialog de cadastro e limpa o naveEditar
   const fecharCadastro = () => {
     setNaveEditar(null);
     setCadastroAberto(false);
   };
 
+  //Seta o naveApagar e abre o dialog de confirmação do apagar
   const abrirVerificacaoApagar = (nave) => {
     setNaveApagar(nave);
     setVerificacaoApagarAberto(true);
   };
 
+  //Fecha a verificação de apagar
   const fecharVerificacaoApagar = () => {
     setVerificacaoApagarAberto(false);
   };
 
+  //Apaga a nave e, após resposta da API, fecha a verificação de apagar e recarrega as naves da tabela
   const confirmarApagarNave = () => {
     apagarNave(naveApagar.id).then(() => {
       carregarNaves();
@@ -52,6 +59,7 @@ export default function ListagemNaves() {
     });
   }
 
+  //Busca os dados da nave a editar na API, seta no naveEditar e abre o formulário
   const abrirEdicaoNave = (id) => {
     buscarNavePorId(id)
     .then((response) => {
@@ -60,6 +68,7 @@ export default function ListagemNaves() {
     });
   }
 
+  //Define as colunas da tabela de listagem das naves
   const columns = [
     { field: 'nome', headerName: 'Nome', width: 180, align: 'center ', headerAlign: 'center' },
     { field: 'cor', headerName: 'Cor', width: 90, align: 'center ', headerAlign: 'center' },

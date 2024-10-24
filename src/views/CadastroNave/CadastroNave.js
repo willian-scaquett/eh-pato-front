@@ -25,8 +25,12 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
   
   const [listas, setListas] = useState([]);
 
+  /**
+   * Ao montar, busca os valores dos selects e, caso seja edição,
+   * seta os valores da nave a editar
+   */
   useEffect(() => {
-    buscarValoresListas()
+    buscarValoresListas();
     if (naveEditar) {
       setNome(naveEditar.nome);
       setCor(naveEditar.cor);
@@ -42,14 +46,19 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
     }
   }, [naveEditar]);
   
+  //Busca da API os valores dos selects
   const buscarValoresListas = () => {
     buscarValoresSelectsCadastro().then((response) => setListas(response));
   }
 
+  /**
+   * Salva as informações do formulário na API, criando ou editando a nave.
+   * Após retorno da API, recarrega as naves da listagem e mostra a classificação
+   * e a periculosidade ou, quando é o caso, a mensagem de erro
+   */
   const salvarCadastro = () => {
     setErro(null);
     if (naveEditar) {
-      console.log(naveEditar)
       editarNave(
         {
           id: naveEditar.id,
@@ -99,6 +108,7 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
     }
   }
 
+  //Define valores padrões para limpar o formulário
   const limpar = () => {
     setNome("")
     setCor("AMARELA");
@@ -116,12 +126,13 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
     setErro("")
   }
 
+  //Abre dialog de resposta
   const abrirResposta = () => {
     setRespostaAberta(true);
   }
 
+  //Fecha o dialog de resposta e, quando não há erro, fecha o dialog de cadastro e limpa o formulário
   const fecharResposta = () => {
-    console.log(erro)
     setRespostaAberta(false);
     if (!erro) {
       fecharCadastro();

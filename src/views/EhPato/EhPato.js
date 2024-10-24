@@ -24,27 +24,8 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
   const [respostaAberta, setRespostaAberta] = useState(false);
   const [erro, setErro] = useState("")
 
-  const limpar = () => {
-    setEsverdeamento(0);
-    setTamanhoBico(1);
-    setGrauSotaque(0);
-    setRecordeDiasSemComer(0);
-    setTemSmartphone(true);
-    setGostaLagos(true);
-    setCursaTI(true);
-    setComePao(true);
-    setTimeCoracao("Atlético Pateiro")
-    setLocalizacao("AGUA")
-    setEmBando(false)
-    setEhPato(false);
-    setArmaRecomendada(null);
-    setAbordagemRecomendada(null);
-    setRespostaAberta(false);
-    setErro("")
-  }
-
+  //Consulta a API para verificar se é pato e, quando não for, receber a estratégia e a abordagem recomendada
   const verificar = () => {
-    //Consulta a API para verificar se é pato e, quando não for, receber a estratégia e a abordagem recomendada
     verificarEhPato({
       esverdeamento: enverdeamento,
       tamanhoBico: tamanhoBico,
@@ -65,10 +46,32 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
     ).finally(() => abrirResposta());
   }
 
+  //Define valores padrões para limpar o formulário
+  const limpar = () => {
+    setEsverdeamento(0);
+    setTamanhoBico(1);
+    setGrauSotaque(0);
+    setRecordeDiasSemComer(0);
+    setTemSmartphone(true);
+    setGostaLagos(true);
+    setCursaTI(true);
+    setComePao(true);
+    setTimeCoracao("Atlético Pateiro")
+    setLocalizacao("AGUA")
+    setEmBando(false)
+    setEhPato(false);
+    setArmaRecomendada(null);
+    setAbordagemRecomendada(null);
+    setRespostaAberta(false);
+    setErro("")
+  }
+
+  //Abre o dialog de resposta
   const abrirResposta = () => {
     setRespostaAberta(true);
   };
 
+  //Fecha o dialog de resposta e o dialog do EhPato e limpa o formulário
   const fecharResposta = () => {
     setRespostaAberta(false);
     fecharEhPato();

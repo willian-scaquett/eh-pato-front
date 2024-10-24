@@ -9,10 +9,12 @@ function Home() {
 
   const [ehPatoAberto, setEhPatoAberto] = useState(false);
 
+  //Abre o dialog do EhPato
   const abrirEhPato = () => {
       setEhPatoAberto(true);
   };
 
+  //Fecha o dialog do EhPato
   const fecharEhPato = () => {
       setEhPatoAberto(false);
   };

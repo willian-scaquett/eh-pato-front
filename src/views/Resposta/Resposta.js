@@ -6,15 +6,7 @@ export default function Resposta({respostaAberta, fecharResposta, conteudo}) {
     return(
         <Dialog open={respostaAberta} onClose={fecharResposta} PaperProps={{ style: { width: '500px'} }}>
             { conteudo }
-            <Button
-                variant="outlined"
-                endIcon={ <ThumbUp/> }
-                onClick={() => {
-                    
-                    fecharResposta();
-                    
-                }}
-            >
+            <Button variant="outlined" endIcon={ <ThumbUp/> } onClick={() => fecharResposta()}>
                 BELEZA
             </Button>
         </Dialog>
