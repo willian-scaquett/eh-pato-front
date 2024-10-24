@@ -65,7 +65,15 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
           totalTripulanteFerido,
           totalTripulanteFoiComDeus
         }
-      );
+      ).then((response) => {
+        carregarNaves();
+        setPericulosidade(response.periculosidade);
+        setClassificao(response.classificacao);
+        abrirResposta();
+      }).catch((erro) => {
+        setErro(erro);
+        abrirResposta();  
+      });;
     } else {
       cadastrarNave({
         nome,
@@ -238,7 +246,7 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
           </div>
           <div className="linha">
             <div className="campo">
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }} fullWidth>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220, maxWidth: 220 }} fullWidth>
                 <InputLabel>Grau de Avaria</InputLabel>
                 <Select
                   value={grauAvaria}
@@ -249,7 +257,7 @@ export default function CadastroNave({cadastroAberto, fecharCadastro, carregarNa
               </FormControl>
             </div>
             <div className="campo">
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }} fullWidth>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220, maxWidth: 220 }} fullWidth>
                 <InputLabel>Potencial Tecnológico</InputLabel>
                 <Select
                   value={potencialTecnologico}

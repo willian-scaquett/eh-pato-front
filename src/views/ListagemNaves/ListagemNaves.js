@@ -19,7 +19,7 @@ export default function ListagemNaves() {
   const [cadastroAberto, setCadastroAberto] = useState(false);
   const [verificacaoApagarAberto, setVerificacaoApagarAberto] = useState(false);
   const [naveApagar, setNaveApagar] = useState({});
-  const [naveEditar, setNaveEditar] = useState({});
+  const [naveEditar, setNaveEditar] = useState(null);
 
   useEffect(() => carregarNaves(), []);
 
@@ -32,6 +32,7 @@ export default function ListagemNaves() {
   };
 
   const fecharCadastro = () => {
+    setNaveEditar(null);
     setCadastroAberto(false);
   };
 
@@ -52,8 +53,11 @@ export default function ListagemNaves() {
   }
 
   const abrirEdicaoNave = (id) => {
-    buscarNavePorId(id).then((response) => setNaveEditar(response));
-    abrirCadastro();
+    buscarNavePorId(id)
+    .then((response) => {
+      setNaveEditar(response);
+      abrirCadastro();
+    });
   }
 
   const columns = [
@@ -101,7 +105,7 @@ export default function ListagemNaves() {
   return (
     <div className="body-tabela">
       <Dialog open={verificacaoApagarAberto} onClose={fecharVerificacaoApagar} PaperProps={{ style: { width: '400px'} }}>
-        <p>Realmente deseja apagar a nave <b>{naveApagar.nome}</b>?</p>
+        <p>Realmente deseja apagar <b>{naveApagar.nome}</b>?</p>
         <DialogActions>
           <Button
             variant="outlined"
