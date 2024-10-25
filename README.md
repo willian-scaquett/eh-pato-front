@@ -1,4 +1,4 @@
-# EH PATO - Interface
+# EH PATO - Front-end
 
 Interface criada para o gerenciamento do cadastro de naves e comunicação com a nossa IA identificadora de aliens.
 
