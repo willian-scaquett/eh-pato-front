@@ -131,7 +131,7 @@ export default function EhPato({ fecharEhPato, ehPatoAberto }) {
         <div className="linha">
           <div className="campo">
           <TextField
-            label="Everdeamento"
+            label="Esverdeamento"
             type="number"
             variant="standard"
             value={enverdeamento}
